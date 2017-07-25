@@ -1,3 +1,6 @@
 [submodule "dscripts"]
 	path = dscripts
 	url = https://github.com/identinetics/dscripts.git
+[submodule "install/SATOSA"]
+	path = install/SATOSA
+	url = https://github.com/SUNET/SATOSA
