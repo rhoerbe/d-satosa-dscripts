@@ -1,0 +1,69 @@
+# Docker Scripts - Leightweight Image and Container Management
+
+A git subproject for docker projects. Provides scripts for docker build, exec and run commands that
+are becoming unwiedly when one needs many arguments. Tries to be a thin wrapper around the
+docker CLI similar to docker-compose, with a focus to control the mapping of uids to the docker host.
+With the --userns-remap feature of dockerd (>= 1.10) the need for this feature will go away for
+containers running processes under a single uid.
+
+Features:
+
+- By default, containers do not run as root, but have unique users mapped to the docker host
+- The image produces immutable containers, i.e. a container can be removed and re-created
+  any time without loss of data, because data is stored on mounted volumes.
+- Images are signed and verified using link:docs/SHIVA.adoc[SHIVA] (Simple Hack for Image Verification and Admission)
+- Configuration from a config file, building and running containers with the same script in
+  different projects
+- Containers have by default a fixed IP-address baed on the container number. This allows load balancer
+  config without dependency on the container to have a dockerd-DNS entry (when not running).
+- Consistent image, container, user and network mapping for multiple containers
+- Pre-build hook: Allow script to modify the build env or Dockerfile before build. This can be used
+  to:
+  ** Download archives or clone github repos before `docker build` to have better control on updates, or
+  ** add staging support for images: e.g., it allows an image to reference myimage-qa or
+     myimage-prod in FROM.
+  It is implemented by adding a build_prepare.sh script to in the same directory as conf.sh
+
+Requirements:
+- SELinux must be enabled (permissive or enforcing)
+
+## Configuration
+
+1. Add this project to your docker project as a subdirectory or git submodule, e.g.
+
+    git submodule add https://github.com/identinetics/dscripts.git
+    git add dscripts
+    git commit -m 'add submodule dscripts'
+    # later, when you clone your project, you need to execute:    
+    git submodule update --init --checkout
+    
+2. From the dscript project copy template files into your project root:
+
+    cp dscript/templates/Dockerfile-centos7.default Dockerfile
+    cp dscript/templates/conf.sh.example conf.sh  # if using more than 1 image instance name it confXX.sh and set XX to a unique 2-digit number on your host
+    # optional
+    cp dscript/templates/build_prepare.sh.default build_prepare.sh
+    cp dscript/templates/.gitignore .
+    cp -r dscript/templates/install .
+    
+    
+3. adapt Dockerfile, conf.sh and build_prepare.sh
+
+## Usage
+
+    dscript/build.sh [-h] [-n container-nr] [-p] [-r]
+    dscript/run.sh [-h] [-i] [-n container-nr] [-p] [-r] -[R] [cmd]
+    dscript/exec.sh [-h] [-i] [-n container-nr] [-p] [-r] [cmd]
+
+    # auxiliary functions:
+    dscript/manage.sh [-h] [-n container-nr] cmd
+    dscript/sign.sh [-h] [-n container-nr]
+    dscript/verify.sh [-h] [-n container-nr]
+
+    To run multiple XYZ containers on the same system you need to create separate
+    conf.sh files and build separate images:
+    E.g. to create XYZ container instance 3:
+    a) create a file conf3.sh, and set the IMGID=3; and
+    b) build the container with the -n option, e.g. `build.sh -n 3`
+    c) run the container with the -n option, e.g. `run.sh -n 3`
+

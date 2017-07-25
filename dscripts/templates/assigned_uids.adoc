@@ -1,0 +1,61 @@
+# Assigned UID numbers for docker containers
+
+Container users should not run as root, but user namespace mapping is not stable as of Jan 2017,
+and support in RHEL is experimental. OTOH container users need unique uids per node. Besides
+starting containers with -u (and possible massaging /etc/passwd), a temporary fix is to assign
+a unqiue userid to a set of containers. For the github repos rhoerbe/* and identinetics/* this
+file coordinates the assigned numbers:
+
+Default
+|===
+|343002|nginx
+|343003|pyff
+|343004|samlschtron
+|343005|shibsp (344005 for httpd)
+|343006|openldap
+|343007|shibidp
+|343009|rabbitmq
+|343011|pvzdfe
+|343012|weblog
+|343015|rabbi-cl
+|343016|rabbitmq
+|343017|es
+|343018|logstash
+|343021|gitlab
+|343022|gitlabsp
+|343023|ssp
+|343024|mariadb
+|343025|drupal
+|343027|drupal7
+|343028|kibana
+|343029|pvzdbe-pep
+|343030|eventfetcher
+|343031|pvzdclient
+|343032|getbpk
+|343033|rocket.chat
+|343034|mongo
+|343035|jenkinsci
+|343036|shinken
+|343037|toggl
+|343038|phpldapadmin
+|343039|pvzdfrontend
+|343040|openldap2
+|343041|openldap3
+|343042|jenkins-webhook
+
+
+
+
+|===
+
+Netcup8
+|343037|pyff|mdfeed.wpv.pv.at
+|343040 |pyff|mdfeed.test.edu.pv.at
+|343041 |shipidp| idp1.test.edu.pv.at
+|343042 |shipsp|sp1.test.edu.pv.at
+|343043 |shipsp|sp2.test.edu.pv.at
+|343044 |shipsp|sp3.test.edu.pv.at
+|343045 |shipsp|sp1.test.portalverbund.gv.at
+|343046 |shipsp|sp4.test.edu.pv.at (pwchange)
+|343047 |shipsp|testsp.wpv.portalverbund.at
+|3430 ||
