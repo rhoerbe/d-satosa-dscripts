@@ -1,4 +1,0 @@
-# keep the docker build environment lean:
-/*.sh
-README.md
-work/**
