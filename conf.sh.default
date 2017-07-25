@@ -83,7 +83,7 @@ setup_vol_mapping() {
     export VOLLIST=''
     export VOLMAPPING=''
     CONTAINER_GROUPWRITE=no
-    map_docker_volume $mode "${CONTAINERNAME}./opt/satosa/etc" '/opt/satosa/etc' 'Z' $DOCKERVOL_SHORT
+    map_docker_volume $mode "${CONTAINERNAME}.opt/satosa/etc" '/opt/satosa/etc' 'Z' $DOCKERVOL_SHORT
 }
 
 
