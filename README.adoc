@@ -1,7 +1,25 @@
-# docker runtime env for SATOSA
+# docker runtime env for SATOSA rocket.chat to PVP2 proxy
 
 
 ## Configuration
 
+### Build-time
+
+Config files are in install/config1. Edit, then:
+
+
+### Run-time
+
+    bash /opt/config1/scripts/configure.sh
+
+    # metadata keys - genreate for dev/test only
+    cd /opt/satosa/etc
+    bash ./scripts/create_mdkeys.sh -v -s "/C=AT/ST=Wien/L=Wien/O=BKA/OU=IT/CN=satosa-metadata" -n metadata
+
+
+The configuration files are now in /opt/satosa/etc
+
 
 ## Usage
+
+    /start.sh

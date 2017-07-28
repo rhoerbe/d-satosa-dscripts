@@ -10,8 +10,7 @@ main() {
     _set_volume_root
     _set_image_and_container_name
     _set_users
-    #_set_buildargs
-    _set_run_args
+    _set_buildargs
 }
 
 
@@ -28,7 +27,7 @@ _set_volume_root() {
 _set_image_and_container_name() {
     # IMGID qualifies image, container, user and IP adddress; this is helpful for managing
     # processes on the docker host etc.
-    IMGID='43'
+    IMGID='53'  # reg: 43
     PROJSHORT='satosa'
     SERVICEDESCRIPTION="satosa_proxy"
     export IMAGENAME="satosa/satosa"
@@ -41,19 +40,24 @@ _set_image_and_container_name() {
 
 
 _set_users() {
+    export CONTAINERUSER="$PROJSHORT${IMGID}"   # group and user to run container
+    export CONTAINERUID="3430${IMGID}"     # gid and uid for CONTAINERUSER
     export START_AS_ROOT=      # 'True' (e.g. for apache to fall back to www user)
 }
 
 
 _set_buildargs() {
-    SLAPDPORT=8389
-    export BUILDARGS="--build-arg SLAPDPORT=$SLAPDPORT"
+    export BUILDARGS="
+        --build-arg USERNAME=$CONTAINERUSER
+        --build-arg UID=$CONTAINERUID
+    "
 }
 
 
 _set_run_args() {
     LOGPURGEFILES=''
     export ENVSETTINGS="
+        -e PROXY_PORT=8000
     "
     export STARTCMD=''  # unset or blank to use image default
 }
@@ -82,6 +86,8 @@ setup_vol_mapping() {
     mode=$1  # create (used by run.sh)/list (used by manage.sh)
     export VOLLIST=''
     export VOLMAPPING=''
+    # create container user on docker host (optional - for better process visibility with host tools)
+    create_user $CONTAINERUSER $CONTAINERUID
     CONTAINER_GROUPWRITE=no
     map_docker_volume $mode "${CONTAINERNAME}.opt_satosa_etc" '/opt/satosa/etc' 'Z' $DOCKERVOL_SHORT
 }
