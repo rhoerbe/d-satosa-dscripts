@@ -38,6 +38,6 @@ RUN groupadd -g $UID $USERNAME \
  && chown -R $USERNAME:$USERNAME /opt
 
 USER $USERNAME
-export PYTHONPATH=/src/satosa/
+ENV PYTHONPATH=/src/satosa/
 CMD /bin/bash
 VOLUME /opt/satosa/etc
