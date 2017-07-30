@@ -13,7 +13,7 @@ RUN apt-get update && \
     libyaml-dev && \
     apt-get clean
 
-RUN apt-get install vim
+RUN apt-get -y install vim
 RUN mkdir -p /src/satosa
 COPY install/SATOSA/* /src/satosa/
 COPY install/SATOSA/docker/setup.sh /setup.sh
@@ -31,13 +31,13 @@ COPY install/SATOSA/docker/attributemaps /opt/satosa/attributemaps
 COPY install/config1 /opt/config1
 
 ARG USERNAME=satosa
-ARG UID=343043
+ARG UID=343053
 RUN groupadd -g $UID $USERNAME \
  && adduser --gid $UID --disabled-password --gecos "satosa proxy service" --uid $UID $USERNAME \
  && mkdir /opt/satosa/etc \
  && chown -R $USERNAME:$USERNAME /opt
 
 USER $USERNAME
-#ENTRYPOINT ["/start.sh"]
+export PYTHONPATH=/src/satosa/
 CMD /bin/bash
 VOLUME /opt/satosa/etc

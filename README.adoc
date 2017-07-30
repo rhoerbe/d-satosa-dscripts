@@ -12,7 +12,7 @@ Config files are in install/config1. Edit, then:
 
     bash /opt/config1/scripts/configure.sh
 
-    # metadata keys - genreate for dev/test only
+    # metadata keys - generate for dev/test only
     cd /opt/satosa/etc
     bash ./scripts/create_mdkeys.sh -v -s "/C=AT/ST=Wien/L=Wien/O=BKA/OU=IT/CN=satosa-metadata" -n metadata
 
@@ -23,3 +23,14 @@ The configuration files are now in /opt/satosa/etc
 ## Usage
 
     /start.sh
+
+
+
+## Dev Env (non-docker)
+
+mkdir work
+cp -pr install/config1 work
+
+bash ./scripts/create_mdkeys.sh -v -s "/C=AT/ST=Wien/L=Wien/O=BKA/OU=IT/CN=satosa-metadata" -n metadata
+bash ./scripts/create_mdkeys.sh -v -s "/C=AT/ST=Wien/L=Wien/O=BKA/OU=IT/CN=satosa-frontend" -n frontend
+bash ./scripts/create_mdkeys.sh -v -s "/C=AT/ST=Wien/L=Wien/O=BKA/OU=IT/CN=satosa-backend" -n backend

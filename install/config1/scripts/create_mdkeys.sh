@@ -65,11 +65,11 @@ create_keypair_and_certificate() {
         -config /tmp/openssl.cfg
         -x509 -newkey rsa:${keysize}
         -keyout ./${keyname}_key_pkcs8.pem
-        -out ./${keyname}_crt.pem
+        -out ./${keyname}.crt
         -sha256 -days 3650 -nodes
         -batch -subj \"$x509subject\"
     "
-    cmd2="openssl rsa -in ./${keyname}_key_pkcs8.pem -out ./${keyname}_key_pkcs1.pem"
+    cmd2="openssl rsa -in ./${keyname}_key_pkcs8.pem -out ./${keyname}.key"
 
     if [ "$verbose" == "True" ]; then
         echo $cmd1
@@ -80,7 +80,7 @@ create_keypair_and_certificate() {
     echo $cmd1 > $tmpname   # indirect execution as workaround against "invalid subject not beginning with '/'"
     bash $tmpname
     $cmd2
-    chmod 600 ./${keyname}_key*.pem
+    chmod 600 ./${keyname}.key
 }
 
 
