@@ -39,5 +39,5 @@ RUN groupadd -g $UID $USERNAME \
 
 USER $USERNAME
 ENV PYTHONPATH=/src/satosa/
-CMD /bin/bash
+CMD /start.sh
 VOLUME /opt/satosa/etc
