@@ -12,13 +12,21 @@ Config files are in install/config1. Edit, then:
 
     bash /opt/config1/scripts/configure.sh
 
+    create front-/backend keys & certs
+
     # metadata keys - generate for dev/test only
     cd /opt/satosa/etc
     bash ./scripts/create_mdkeys.sh -v -s "/C=AT/ST=Wien/L=Wien/O=BKA/OU=IT/CN=satosa-metadata" -n metadata
 
+    copy example config and update
 
-The configuration files are now in /opt/satosa/etc
+    copy metadata of front- and backend peers (idp, sp) -> metadata/
 
+
+Copy the configuration files from examples to /opt/satosa/etc (resp. the docker volume)
+    plugins/backends/saml2_backend.yaml
+    plugins/frontends/saml2_frontend.yaml
+    microservices/static_attributes.yaml
 
 ## Usage
 
