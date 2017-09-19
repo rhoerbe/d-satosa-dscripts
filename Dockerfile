@@ -31,13 +31,13 @@ COPY install/SATOSA/docker/attributemaps /opt/satosa/attributemaps
 COPY install/config1 /opt/config1
 
 ARG USERNAME=satosa
-ARG UID=343053
+ARG UID=343043
 RUN groupadd -g $UID $USERNAME \
  && adduser --gid $UID --disabled-password --gecos "satosa proxy service" --uid $UID $USERNAME \
  && mkdir /opt/satosa/etc \
  && chown -R $USERNAME:$USERNAME /opt
 
 USER $USERNAME
-ENV PYTHONPATH=/src/satosa/
-CMD /start.sh
+CMD ["/start.sh"]
 VOLUME /opt/satosa/etc
+EXPOSE 8000
