@@ -9,10 +9,6 @@ attributes:
     github: [login]
     saml: [displayName]
   edupersontargetedid:
-    facebook: [id]
-    linkedin: [id]
-    orcid: [orcid]
-    github: [id]
     openid: [sub]
     saml: [eduPersonTargetedID]
   givenname:
